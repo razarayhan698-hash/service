@@ -23,6 +23,7 @@ def home():
                 display: flex; flex-direction: column; align-items: center;
                 min-height: 100vh;
             }
+            /* Splash Screen */
             #splash {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background-color: #2b5d8c; display: flex; flex-direction: column;
@@ -36,6 +37,7 @@ def home():
             .dot:nth-child(3) { animation-delay: 0.4s; }
             @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; background: white; } }
 
+            /* App Header */
             .top-bar { 
                 width: 100%; padding: 15px 20px; display: flex; 
                 justify-content: space-between; align-items: center; 
@@ -47,6 +49,7 @@ def home():
             .content { width: 100%; max-width: 450px; padding: 20px; flex-grow: 1; }
             .support-label { color: #1a3a5a; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
             
+            /* Card Design */
             .card { 
                 background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; 
                 display: flex; align-items: center; text-decoration: none; 
@@ -62,6 +65,7 @@ def home():
             .text-box span { font-size: 14px; color: #7a8b9a; }
             .badge { background: #e1e8f0; color: #7a8b9a; padding: 2px 10px; border-radius: 12px; font-size: 14px; }
 
+            /* Footer Button */
             .footer { width: 100%; max-width: 450px; padding: 20px; }
             .btn-login { 
                 background: #4a90e2; color: white; border: none; padding: 18px; 
@@ -70,11 +74,11 @@ def home():
             }
         </style>
         <script>
+            // Service Worker Registration
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                .then(() => console.log("Service Worker Registered"));
+                navigator.serviceWorker.register('/sw.js');
             }
-            
+            // Splash Screen hide
             window.onload = () => {
                 setTimeout(() => {
                     const s = document.getElementById('splash');
@@ -123,6 +127,7 @@ def home():
     </html>
     '''
 
+# লোগো, ম্যানিফেস্ট এবং সার্ভিস ওয়ার্কার ফাইল সার্ভ করার রুট
 @app.route('/manifest.json')
 def serve_manifest():
     return send_from_directory(os.getcwd(), 'manifest.json')
@@ -130,6 +135,10 @@ def serve_manifest():
 @app.route('/sw.js')
 def serve_sw():
     return send_from_directory(os.getcwd(), 'sw.js')
+
+@app.route('/logo.png')
+def serve_logo():
+    return send_from_directory(os.getcwd(), 'logo.png')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
