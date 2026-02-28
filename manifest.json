@@ -3,15 +3,15 @@
   "name": "xCare Support App",
   "icons": [
     {
-      "src": "https://img.icons8.com/color/512/medical-heart.png",
+      "src": "https://i.imgur.com/uRovL7C.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
     }
   ],
   "start_url": "/",
-  "background_color": "#f4f7f9",
+  "background_color": "#f0f4f7",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#517da2"
+  "theme_color": "#2b5d8c"
 }
