@@ -3,13 +3,13 @@
   "name": "xCare Support",
   "icons": [
     {
-      "src": "https://i.imgur.com/uRovL7C.png",
+      "src": "https://raw.githubusercontent.com/yousuf7774/service/main/logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "https://i.imgur.com/uRovL7C.png",
+      "src": "https://raw.githubusercontent.com/yousuf7774/service/main/logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
