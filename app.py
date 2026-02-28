@@ -13,7 +13,7 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>xCare Support</title>
         <link rel="manifest" href="/manifest.json">
-        <meta name="theme-color" content="#ffffff">
+        <meta name="theme-color" content="#2b5d8c">
         <style>
             * { box-sizing: border-box; }
             body { 
@@ -23,7 +23,6 @@ def home():
                 display: flex; flex-direction: column; align-items: center;
                 min-height: 100vh;
             }
-            /* Splash Screen Design - Exactly like Video */
             #splash {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background-color: #2b5d8c; display: flex; flex-direction: column;
@@ -37,7 +36,6 @@ def home():
             .dot:nth-child(3) { animation-delay: 0.4s; }
             @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; background: white; } }
 
-            /* Main Header */
             .top-bar { 
                 width: 100%; padding: 15px 20px; display: flex; 
                 justify-content: space-between; align-items: center; 
@@ -49,7 +47,6 @@ def home():
             .content { width: 100%; max-width: 450px; padding: 20px; flex-grow: 1; }
             .support-label { color: #1a3a5a; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
             
-            /* Card Design like Screenshot 12272 */
             .card { 
                 background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; 
                 display: flex; align-items: center; text-decoration: none; 
@@ -65,15 +62,27 @@ def home():
             .text-box span { font-size: 14px; color: #7a8b9a; }
             .badge { background: #e1e8f0; color: #7a8b9a; padding: 2px 10px; border-radius: 12px; font-size: 14px; }
 
-            /* Footer Button */
             .footer { width: 100%; max-width: 450px; padding: 20px; }
             .btn-login { 
                 background: #4a90e2; color: white; border: none; padding: 18px; 
                 width: 100%; border-radius: 20px; font-size: 18px; font-weight: bold;
                 text-align: center; display: block; text-decoration: none;
-                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
             }
         </style>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log("Service Worker Registered"));
+            }
+            
+            window.onload = () => {
+                setTimeout(() => {
+                    const s = document.getElementById('splash');
+                    s.style.opacity = '0';
+                    setTimeout(() => { s.style.display = 'none'; }, 600);
+                }, 2500);
+            };
+        </script>
     </head>
     <body>
         <div id="splash">
@@ -88,23 +97,19 @@ def home():
 
         <div class="content">
             <div class="support-label">Support</div>
-
-            <a href="https://t.me/your_telegram" class="card">
+            <a href="#" class="card">
                 <div class="icon-circle">💬</div>
                 <div class="text-box"><b>Operator chat</b><span>Text chat</span></div>
                 <div class="badge">1</div>
             </a>
-
-            <a href="tel:+8801700000000" class="card">
+            <a href="#" class="card">
                 <div class="icon-circle">🎧</div>
                 <div class="text-box"><b>Call back</b><span>Order callback</span></div>
             </a>
-
             <div class="card">
                 <div class="icon-circle">🎤</div>
                 <div class="text-box"><b>Online call</b><span>IP call</span></div>
             </div>
-
             <div class="card">
                 <div class="icon-circle">📱</div>
                 <div class="text-box"><b>Contacts</b><span>E-mail, phone, etc</span></div>
@@ -114,18 +119,6 @@ def home():
         <div class="footer">
             <a href="#" class="btn-login">Log in</a>
         </div>
-
-        <script>
-            setTimeout(() => {
-                const s = document.getElementById('splash');
-                s.style.opacity = '0';
-                setTimeout(() => { s.style.display = 'none'; }, 600);
-            }, 2500);
-
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js');
-            }
-        </script>
     </body>
     </html>
     '''
