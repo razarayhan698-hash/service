@@ -18,77 +18,109 @@ def home():
             * { box-sizing: border-box; }
             body { 
                 font-family: 'Segoe UI', sans-serif; 
-                background-color: #f4f7f9; 
-                margin: 0; padding: 20px; 
+                background-color: #f0f4f7; 
+                margin: 0; padding: 0; 
                 display: flex; flex-direction: column; align-items: center;
+                min-height: 100vh;
             }
-            /* Splash Screen Design */
+            /* Splash Screen Design - Exactly like Video */
             #splash {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background-color: #2c5e8c; display: flex; flex-direction: column;
+                background-color: #2b5d8c; display: flex; flex-direction: column;
                 justify-content: center; align-items: center; z-index: 9999;
-                transition: opacity 0.5s ease;
+                transition: opacity 0.6s ease;
             }
-            #splash img { width: 150px; margin-bottom: 20px; }
-            .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; }
-            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            #splash h1 { color: white; font-size: 50px; font-weight: bold; margin: 0; font-style: italic; }
+            .loader-dots { margin-top: 20px; display: flex; gap: 8px; }
+            .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: blink 1.4s infinite; }
+            .dot:nth-child(2) { animation-delay: 0.2s; }
+            .dot:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; background: white; } }
 
-            /* Main Content Design */
-            .header { width: 100%; text-align: center; margin-bottom: 30px; }
-            .header h1 { color: #2c5e8c; font-size: 28px; margin: 10px 0; }
-            .support-label { align-self: flex-start; width: 100%; max-width: 400px; color: #555; font-size: 18px; margin-bottom: 15px; font-weight: bold; }
-            
-            .card { 
-                background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; 
-                display: flex; align-items: center; text-decoration: none; color: #333; 
-                width: 100%; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            /* Main Header */
+            .top-bar { 
+                width: 100%; padding: 15px 20px; display: flex; 
+                justify-content: space-between; align-items: center; 
+                background: white; border-bottom: 1px solid #e0e0e0;
             }
-            .icon-box { margin-right: 15px; color: #2c5e8c; font-size: 24px; }
-            .text-box b { display: block; font-size: 16px; color: #333; }
-            .text-box span { font-size: 13px; color: #888; }
+            .top-bar h2 { color: #2b5d8c; margin: 0; font-size: 22px; flex-grow: 1; text-align: center; margin-left: 30px; }
+            .settings-icon { font-size: 24px; color: #2b5d8c; cursor: pointer; }
+
+            .content { width: 100%; max-width: 450px; padding: 20px; flex-grow: 1; }
+            .support-label { color: #1a3a5a; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
             
+            /* Card Design like Screenshot 12272 */
+            .card { 
+                background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; 
+                display: flex; align-items: center; text-decoration: none; 
+                box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0;
+            }
+            .icon-circle { 
+                width: 50px; height: 50px; background: #e8f0f7; 
+                border-radius: 50%; display: flex; justify-content: center; 
+                align-items: center; margin-right: 15px; font-size: 24px; color: #2b5d8c;
+            }
+            .text-box { flex-grow: 1; }
+            .text-box b { display: block; font-size: 17px; color: #1a3a5a; }
+            .text-box span { font-size: 14px; color: #7a8b9a; }
+            .badge { background: #e1e8f0; color: #7a8b9a; padding: 2px 10px; border-radius: 12px; font-size: 14px; }
+
+            /* Footer Button */
+            .footer { width: 100%; max-width: 450px; padding: 20px; }
             .btn-login { 
-                background: #4a90e2; color: white; border: none; padding: 15px; 
-                width: 100%; max-width: 400px; border-radius: 30px; 
-                font-size: 18px; margin-top: 20px; font-weight: bold;
+                background: #4a90e2; color: white; border: none; padding: 18px; 
+                width: 100%; border-radius: 20px; font-size: 18px; font-weight: bold;
                 text-align: center; display: block; text-decoration: none;
+                box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
             }
         </style>
     </head>
     <body>
         <div id="splash">
-            <img src="https://i.imgur.com/uRovL7C.png" alt="xCare Logo">
-            <div class="loader"></div>
+            <h1>xCare</h1>
+            <div class="loader-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         </div>
 
-        <div class="header"><h1>xCare</h1></div>
-        <div class="support-label">Support</div>
-
-        <a href="https://t.me/your_telegram" class="card">
-            <div class="icon-box">💬</div>
-            <div class="text-box"><b>Operator chat</b><span>Text chat</span></div>
-        </a>
-        <a href="tel:+8801700000000" class="card">
-            <div class="icon-box">🎧</div>
-            <div class="text-box"><b>Call back</b><span>Order callback</span></div>
-        </a>
-        <div class="card">
-            <div class="icon-box">🎤</div>
-            <div class="text-box"><b>Online call</b><span>IP call</span></div>
-        </div>
-        <div class="card">
-            <div class="icon-box">📱</div>
-            <div class="text-box"><b>Contacts</b><span>E-mail, phone, etc</span></div>
+        <div class="top-bar">
+            <h2>xCare</h2>
+            <div class="settings-icon">⚙️</div>
         </div>
 
-        <a href="#" class="btn-login">Log in</a>
+        <div class="content">
+            <div class="support-label">Support</div>
+
+            <a href="https://t.me/your_telegram" class="card">
+                <div class="icon-circle">💬</div>
+                <div class="text-box"><b>Operator chat</b><span>Text chat</span></div>
+                <div class="badge">1</div>
+            </a>
+
+            <a href="tel:+8801700000000" class="card">
+                <div class="icon-circle">🎧</div>
+                <div class="text-box"><b>Call back</b><span>Order callback</span></div>
+            </a>
+
+            <div class="card">
+                <div class="icon-circle">🎤</div>
+                <div class="text-box"><b>Online call</b><span>IP call</span></div>
+            </div>
+
+            <div class="card">
+                <div class="icon-circle">📱</div>
+                <div class="text-box"><b>Contacts</b><span>E-mail, phone, etc</span></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#" class="btn-login">Log in</a>
+        </div>
 
         <script>
-            // Splash screen hides after 2 seconds
             setTimeout(() => {
-                document.getElementById('splash').style.opacity = '0';
-                setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 500);
-            }, 2000);
+                const s = document.getElementById('splash');
+                s.style.opacity = '0';
+                setTimeout(() => { s.style.display = 'none'; }, 600);
+            }, 2500);
 
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/sw.js');
