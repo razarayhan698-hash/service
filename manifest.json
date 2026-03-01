@@ -15,9 +15,8 @@
       "purpose": "any"
     }
   ],
-  "start_url": "/?standalone=true",
+  "start_url": "/?mode=pwa",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#2b5d8c",
   "theme_color": "#2b5d8c",
   "scope": "/"
