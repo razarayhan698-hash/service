@@ -23,7 +23,6 @@ def home():
                 display: flex; flex-direction: column; align-items: center;
                 min-height: 100vh;
             }
-            /* Splash Screen */
             #splash {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100%;
                 background-color: #2b5d8c; display: flex; flex-direction: column;
@@ -37,7 +36,6 @@ def home():
             .dot:nth-child(3) { animation-delay: 0.4s; }
             @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; background: white; } }
 
-            /* App Header */
             .top-bar { 
                 width: 100%; padding: 15px 20px; display: flex; 
                 justify-content: space-between; align-items: center; 
@@ -49,7 +47,6 @@ def home():
             .content { width: 100%; max-width: 450px; padding: 20px; flex-grow: 1; }
             .support-label { color: #1a3a5a; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
             
-            /* Card Design */
             .card { 
                 background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; 
                 display: flex; align-items: center; text-decoration: none; 
@@ -65,7 +62,6 @@ def home():
             .text-box span { font-size: 14px; color: #7a8b9a; }
             .badge { background: #e1e8f0; color: #7a8b9a; padding: 2px 10px; border-radius: 12px; font-size: 14px; }
 
-            /* Footer Button */
             .footer { width: 100%; max-width: 450px; padding: 20px; }
             .btn-login { 
                 background: #4a90e2; color: white; border: none; padding: 18px; 
@@ -74,16 +70,16 @@ def home():
             }
         </style>
         <script>
-            // Service Worker Registration
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('/sw.js');
             }
-            // Splash Screen hide
             window.onload = () => {
                 setTimeout(() => {
                     const s = document.getElementById('splash');
-                    s.style.opacity = '0';
-                    setTimeout(() => { s.style.display = 'none'; }, 600);
+                    if(s) {
+                        s.style.opacity = '0';
+                        setTimeout(() => { s.style.display = 'none'; }, 600);
+                    }
                 }, 2500);
             };
         </script>
@@ -93,12 +89,10 @@ def home():
             <h1>xCare</h1>
             <div class="loader-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
         </div>
-
         <div class="top-bar">
             <h2>xCare</h2>
             <div class="settings-icon">⚙️</div>
         </div>
-
         <div class="content">
             <div class="support-label">Support</div>
             <a href="#" class="card">
@@ -110,16 +104,15 @@ def home():
                 <div class="icon-circle">🎧</div>
                 <div class="text-box"><b>Call back</b><span>Order callback</span></div>
             </a>
-            <div class="card">
+            <a href="#" class="card">
                 <div class="icon-circle">🎤</div>
                 <div class="text-box"><b>Online call</b><span>IP call</span></div>
-            </div>
-            <div class="card">
+            </a>
+            <a href="#" class="card">
                 <div class="icon-circle">📱</div>
                 <div class="text-box"><b>Contacts</b><span>E-mail, phone, etc</span></div>
-            </div>
+            </a>
         </div>
-
         <div class="footer">
             <a href="#" class="btn-login">Log in</a>
         </div>
@@ -127,7 +120,6 @@ def home():
     </html>
     '''
 
-# লোগো, ম্যানিফেস্ট এবং সার্ভিস ওয়ার্কার ফাইল সার্ভ করার রুট
 @app.route('/manifest.json')
 def serve_manifest():
     return send_from_directory(os.getcwd(), 'manifest.json')
