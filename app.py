@@ -15,6 +15,22 @@ def home():
         <link rel="manifest" href="/manifest.json">
         <meta name="theme-color" content="#2b5d8c">
         <style>
+            /* Loading Screen Style */
+            #loader {
+                position: fixed; width: 100%; height: 100%; background: #2b5d8c;
+                display: flex; flex-direction: column; justify-content: center; align-items: center;
+                z-index: 9999; transition: opacity 0.5s ease;
+            }
+            .dots span {
+                width: 15px; height: 15px; margin: 0 5px; background: white;
+                border-radius: 50%; display: inline-block;
+                animation: loading 0.6s infinite alternate;
+            }
+            .dots span:nth-child(2) { animation-delay: 0.2s; }
+            .dots span:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes loading { from { opacity: 1; transform: scale(1); } to { opacity: 0.3; transform: scale(0.5); } }
+
+            /* Main UI Style */
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f5f8fa; margin: 0; padding: 0; }
             .header { background: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; color: #2b5d8c; position: relative; border-bottom: 1px solid #eee; }
             .header .settings-icon { position: absolute; right: 20px; top: 18px; color: #5f7d95; font-size: 20px; }
@@ -25,12 +41,16 @@ def home():
             .text-content { flex-grow: 1; }
             .text-content b { display: block; font-size: 16px; color: #1a3a5a; }
             .text-content span { font-size: 13px; color: #8a99a8; }
-            .badge { background: #e1e8ed; color: #5f7d95; font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 10px; }
+            .badge { background: #dce6ed; color: #5f7d95; font-size: 12px; font-weight: bold; padding: 4px 10px; border-radius: 12px; }
             .btn-login { background: #4a90e2; color: white; padding: 16px; width: 100%; border-radius: 12px; text-align: center; text-decoration: none; font-weight: bold; margin-top: 25px; display: block; font-size: 16px; }
         </style>
-        <script> if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); } </script>
     </head>
     <body>
+        <div id="loader">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <h1 style="color: white; font-family: sans-serif; margin-top: 20px;">xCare</h1>
+        </div>
+
         <div class="header">xCare <span class="settings-icon">⚙️</span></div>
         <div class="container">
             <div class="section-title">Support</div>
@@ -40,14 +60,27 @@ def home():
             <a href="#" class="card"><div class="icon-bg">📱</div><div class="text-content"><b>Contacts</b><span>E-mail, phone, etc</span></div></a>
             <a href="#" class="btn-login">Log in</a>
         </div>
+
+        <script>
+            // Hide Loader after 1.5s
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    document.getElementById('loader').style.opacity = '0';
+                    setTimeout(() => document.getElementById('loader').style.display = 'none', 500);
+                }, 1500);
+            });
+            if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }
+        </script>
     </body>
     </html>
     '''
 
 @app.route('/manifest.json')
 def manifest(): return send_from_directory(os.getcwd(), 'manifest.json')
+
 @app.route('/sw.js')
 def sw(): return send_from_directory(os.getcwd(), 'sw.js')
+
 @app.route('/logo.png')
 def logo(): return send_from_directory(os.getcwd(), 'logo.png')
 
