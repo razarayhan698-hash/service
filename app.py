@@ -47,14 +47,17 @@ def home():
             /* Modal Style */
             #contactModal {
                 display: none; position: fixed; bottom: 0; width: 100%; background: white;
-                border-radius: 25px 25px 0 0; padding: 30px 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-                z-index: 10000; box-sizing: border-box;
+                border-radius: 25px 25px 0 0; padding: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+                z-index: 10000; box-sizing: border-box; max-height: 85vh; overflow-y: auto;
             }
             .modal-overlay { display: none; position: fixed; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; }
-            .contact-item { margin-bottom: 20px; }
-            .contact-item h4 { margin: 0 0 5px 0; color: #1a3a5a; font-size: 14px; text-transform: uppercase; }
-            .contact-item a { color: #4a90e2; text-decoration: none; font-size: 16px; font-weight: bold; word-break: break-all; }
-            .close-btn { background: #eee; color: #333; padding: 12px; width: 100%; border-radius: 12px; text-align: center; margin-top: 10px; cursor: pointer; font-weight: bold; }
+            .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+            .modal-header h3 { margin: 0; color: #2b5d8c; }
+            .contact-group { margin-bottom: 25px; }
+            .contact-group h4 { margin: 0 0 10px 0; color: #5f7d95; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+            .contact-link { display: flex; align-items: center; background: #f8fafd; padding: 12px; border-radius: 10px; text-decoration: none; color: #1a3a5a; font-weight: bold; margin-bottom: 10px; border: 1px solid #eef2f6; }
+            .contact-link span { margin-right: 10px; font-size: 18px; }
+            .close-btn { background: #f0f2f5; color: #333; padding: 15px; width: 100%; border-radius: 12px; text-align: center; cursor: pointer; font-weight: bold; margin-top: 10px; }
         </style>
     </head>
     <body>
@@ -80,19 +83,29 @@ def home():
 
         <div class="modal-overlay" id="overlay" onclick="closeContacts()"></div>
         <div id="contactModal">
-            <h3 style="margin-top: 0; color: #2b5d8c;">Contact Support</h3>
-            <div class="contact-item">
-                <h4>E-mail addresses:</h4>
-                <a href="mailto:support@yourlink.com">support@yourlink.com</a>
+            <div class="modal-header">
+                <h3>Contact & Support</h3>
+                <span onclick="closeContacts()" style="cursor:pointer; font-size: 20px; color: #999;">✕</span>
             </div>
-            <div class="contact-item">
-                <h4>Phone:</h4>
-                <a href="tel:+880123456789">+880 1234 56789</a>
+            
+            <div class="contact-group">
+                <h4>Agent Application</h4>
+                <a href="https://t.me/YourMasterAgent" class="contact-link"><span>👑</span> 1xBet Master Agent</a>
+                <a href="https://t.me/YourEwalletAgent" class="contact-link"><span>💳</span> E-wallet Agent</a>
             </div>
-            <div class="contact-item">
-                <h4>Telegram Support:</h4>
-                <a href="https://t.me/YourBotName" target="_blank">t.me/YourBotName</a>
+
+            <div class="contact-group">
+                <h4>1xBet App Issues</h4>
+                <a href="https://t.me/YourSupportLink" class="contact-link"><span>🛠️</span> Report App Problem</a>
+                <a href="mailto:support@yourlink.com" class="contact-link"><span>📧</span> Email Support</a>
             </div>
+
+            <div class="contact-group">
+                <h4>Direct Communication</h4>
+                <a href="tel:+8801XXXXXXXXX" class="contact-link"><span>📞</span> Official Phone Call</a>
+                <a href="https://wa.me/880XXXXXXXXXX" class="contact-link"><span>💬</span> WhatsApp Support</a>
+            </div>
+
             <div class="close-btn" onclick="closeContacts()">Close</div>
         </div>
 
