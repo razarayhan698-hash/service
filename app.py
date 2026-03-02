@@ -15,24 +15,29 @@ def home():
         <link rel="manifest" href="/manifest.json">
         <meta name="theme-color" content="#2b5d8c">
         <style>
-            body { font-family: sans-serif; background-color: #f0f4f7; margin: 0; display: flex; flex-direction: column; align-items: center; }
-            .top-bar { width: 100%; padding: 20px; background: white; text-align: center; border-bottom: 1px solid #ddd; }
-            .top-bar h2 { color: #2b5d8c; margin: 0; }
-            .content { width: 90%; max-width: 400px; padding: 20px; }
-            .card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; display: flex; align-items: center; text-decoration: none; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-            .icon { font-size: 24px; margin-right: 15px; }
-            .btn-login { background: #4a90e2; color: white; padding: 15px; width: 100%; border-radius: 15px; text-align: center; text-decoration: none; font-weight: bold; margin-top: 20px; display: block; }
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f5f8fa; margin: 0; padding: 0; }
+            .header { background: white; padding: 15px; text-align: center; font-size: 20px; font-weight: bold; color: #2b5d8c; position: relative; border-bottom: 1px solid #eee; }
+            .header .settings-icon { position: absolute; right: 20px; top: 18px; color: #5f7d95; font-size: 20px; }
+            .container { padding: 20px; max-width: 500px; margin: auto; }
+            .section-title { font-size: 22px; font-weight: bold; color: #1a3a5a; margin-bottom: 20px; }
+            .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; display: flex; align-items: center; text-decoration: none; color: #333; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+            .icon-bg { width: 45px; height: 45px; background: #e8f1f8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 22px; color: #2b5d8c; }
+            .text-content { flex-grow: 1; }
+            .text-content b { display: block; font-size: 16px; color: #1a3a5a; }
+            .text-content span { font-size: 13px; color: #8a99a8; }
+            .badge { background: #e1e8ed; color: #5f7d95; font-size: 12px; font-weight: bold; padding: 4px 8px; border-radius: 10px; }
+            .btn-login { background: #4a90e2; color: white; padding: 16px; width: 100%; border-radius: 12px; text-align: center; text-decoration: none; font-weight: bold; margin-top: 25px; display: block; font-size: 16px; }
         </style>
-        <script>
-            if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); }
-        </script>
+        <script> if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js'); } </script>
     </head>
     <body>
-        <div class="top-bar"><h2>xCare</h2></div>
-        <div class="content">
-            <a href="#" class="card"><span class="icon">💬</span><b>Operator chat</b></a>
-            <a href="#" class="card"><span class="icon">🎧</span><b>Call back</b></a>
-            <a href="#" class="card"><span class="icon">📱</span><b>Contacts</b></a>
+        <div class="header">xCare <span class="settings-icon">⚙️</span></div>
+        <div class="container">
+            <div class="section-title">Support</div>
+            <a href="#" class="card"><div class="icon-bg">💬</div><div class="text-content"><b>Operator chat</b><span>Text chat</span></div><div class="badge">1</div></a>
+            <a href="#" class="card"><div class="icon-bg">🎧</div><div class="text-content"><b>Call back</b><span>Order callback</span></div></a>
+            <a href="#" class="card"><div class="icon-bg">🎙️</div><div class="text-content"><b>Online call</b><span>IP call</span></div></a>
+            <a href="#" class="card"><div class="icon-bg">📱</div><div class="text-content"><b>Contacts</b><span>E-mail, phone, etc</span></div></a>
             <a href="#" class="btn-login">Log in</a>
         </div>
     </body>
@@ -41,10 +46,8 @@ def home():
 
 @app.route('/manifest.json')
 def manifest(): return send_from_directory(os.getcwd(), 'manifest.json')
-
 @app.route('/sw.js')
 def sw(): return send_from_directory(os.getcwd(), 'sw.js')
-
 @app.route('/logo.png')
 def logo(): return send_from_directory(os.getcwd(), 'logo.png')
 
