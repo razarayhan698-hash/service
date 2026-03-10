@@ -19,21 +19,25 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>xCare Official</title>
         <style>
-            /* আপনার ওয়েবসাইটের মূল ব্যাকগ্রাউন্ড কালার */
+            /* মূল বডি এবং ব্যাকগ্রাউন্ড */
             body { font-family: 'Segoe UI', sans-serif; background-color: #0b162c; color: white; margin: 0; padding: 0; }
             
-            /* লোগো সেকশন - ব্যাকগ্রাউন্ডের সাথে মেলানো */
+            /* লোগো সেকশন - ব্যাকগ্রাউন্ডের সাথে ফিউশন */
             .logo-header { 
                 text-align: center; 
-                padding: 40px 0 30px 0; 
+                padding: 45px 0 25px 0; 
                 background: #0b162c; 
             }
             .main-logo { 
-                width: 140px; /* লোগোটি বড় করা হয়েছে */
+                width: 150px; /* লোগোটি বড় করা হয়েছে */
                 height: auto;
-                /* লোগোটিকে ব্যাকগ্রাউন্ডের সাথে মিশিয়ে দেওয়ার জন্য মিক্স মোড ব্যবহার */
+                /* লোগোর নীল ব্যাকগ্রাউন্ড আপনার সাইটের ডার্ক ব্যাকগ্রাউন্ডের সাথে মিশিয়ে দেবে */
                 mix-blend-mode: lighten; 
-                filter: drop-shadow(0 0 15px rgba(25, 118, 210, 0.3));
+                filter: drop-shadow(0 0 12px rgba(25, 118, 210, 0.4));
+                transition: transform 0.3s ease;
+            }
+            .main-logo:hover {
+                transform: scale(1.05);
             }
             
             .container { padding: 20px; }
@@ -42,6 +46,7 @@ def home():
             
             .section-label { font-size: 11px; color: #8fa3bf; text-transform: uppercase; margin: 25px 0 12px 0; display: block; letter-spacing: 1px; }
             
+            /* কার্ড এবং মেনু ডিজাইন */
             .card { background: #162641; padding: 18px; border-radius: 15px; display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; border: 1px solid #1c2e4a; text-decoration: none; color: white; transition: 0.2s; }
             .card:active { transform: scale(0.96); }
             .card-icon { width: 42px; height: 42px; background: rgba(25, 118, 210, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 1px solid #1976d2; color: #1976d2; font-weight: bold; }
@@ -49,6 +54,7 @@ def home():
             .card-info span { font-size: 11px; color: #4caf50; }
             .arrow { margin-left: auto; color: #1976d2; font-size: 18px; }
 
+            /* আবেদন ফর্ম ডিজাইন */
             .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; backdrop-filter: blur(4px); }
             .bottom-sheet { position: fixed; bottom: -100%; left: 0; width: 100%; background: #0b162c; border-radius: 25px 25px 0 0; padding: 30px 20px; box-sizing: border-box; z-index: 200; border-top: 3px solid #1976d2; transition: 0.4s ease; }
             .bottom-sheet.show { bottom: 0; }
@@ -57,12 +63,12 @@ def home():
             .input-box { margin-bottom: 15px; }
             .input-box label { display: block; font-size: 11px; color: #8fa3bf; margin-bottom: 8px; }
             .input-box input { width: 100%; padding: 14px; background: #162641; border: 1px solid #253959; border-radius: 10px; color: white; box-sizing: border-box; outline: none; }
-            .submit-btn { background: #1976d2; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+            .submit-btn { background: #1976d2; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3); }
         </style>
     </head>
     <body>
         <div class="logo-header">
-            <img src="https://i.imgur.com/G5Zk3fG.png" alt="xC Logo" class="main-logo">
+            <img src="https://i.imgur.com/FwIAnI3.png" alt="xC Logo" class="main-logo">
         </div>
 
         <div class="container">
@@ -78,10 +84,10 @@ def home():
                 <div class="arrow">➔</div>
             </div>
 
-            <span class="section-label">1xbet affiliated program</span>
+            <span class="section-label">Support Services</span>
             <a href="https://t.me/Your_Affiliate_Support" class="card">
                 <div class="card-icon">TG</div>
-                <div class="card-info"><b>Affiliated Support</b><span>Telegram Support Team</span></div>
+                <div class="card-info"><b>Live Support</b><span>Contact official admin</span></div>
                 <div class="arrow">↗</div>
             </a>
 
@@ -129,7 +135,7 @@ def home():
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(d)
                 });
-                if(res.ok) { alert('Success!'); location.reload(); }
+                if(res.ok) { alert('Request Sent Successfully!'); location.reload(); }
             };
         </script>
     </body>
