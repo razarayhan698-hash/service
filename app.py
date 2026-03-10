@@ -21,26 +21,26 @@ def home():
         <style>
             body { font-family: 'Segoe UI', sans-serif; background-color: #0b162c; color: white; margin: 0; padding: 0; }
             
-            /* CSS দিয়ে তৈরি স্থায়ী লোগো */
-            .logo-header { text-align: center; padding: 40px 0 20px 0; }
-            
+            /* CSS লোগো */
+            .logo-header { text-align: center; padding: 40px 0 10px 0; }
             .custom-logo {
-                width: 100px;
-                height: 100px;
-                background: linear-gradient(135deg, #1976d2, #0d47a1);
-                border-radius: 22px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto;
-                font-size: 42px;
-                font-weight: bold;
-                color: white;
-                box-shadow: 0 0 25px rgba(25, 118, 210, 0.4);
-                border: 2px solid rgba(255, 255, 255, 0.1);
-                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-                user-select: none;
+                width: 85px; height: 85px; background: linear-gradient(135deg, #1976d2, #0d47a1);
+                border-radius: 20px; display: flex; align-items: center; justify-content: center;
+                margin: 0 auto; font-size: 36px; font-weight: bold; color: white;
+                box-shadow: 0 0 20px rgba(25, 118, 210, 0.4); border: 2px solid rgba(255, 255, 255, 0.1);
             }
+
+            /* অফিসিয়াল বাটন সেকশন */
+            .official-links {
+                display: flex; gap: 10px; padding: 0 20px; margin-top: 15px;
+            }
+            .btn-official {
+                flex: 1; padding: 12px; border-radius: 12px; text-align: center;
+                text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s;
+            }
+            .login-btn { background: #1976d2; color: white; border: 1px solid #1e88e5; }
+            .reg-btn { background: #162641; color: #1976d2; border: 1px solid #1976d2; }
+            .btn-official:active { transform: scale(0.95); }
 
             .container { padding: 20px; }
             .status-bar { display: flex; justify-content: space-between; font-size: 10px; color: #8fa3bf; margin-bottom: 25px; text-transform: uppercase; border-top: 1px solid #1c2e4a; padding-top: 20px; }
@@ -49,21 +49,20 @@ def home():
             .section-label { font-size: 11px; color: #8fa3bf; text-transform: uppercase; margin: 25px 0 12px 0; display: block; letter-spacing: 1px; }
             
             .card { background: #162641; padding: 18px; border-radius: 15px; display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; border: 1px solid #1c2e4a; text-decoration: none; color: white; transition: 0.2s; }
-            .card:active { transform: scale(0.96); }
             .card-icon { width: 42px; height: 42px; background: rgba(25, 118, 210, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 1px solid #1976d2; color: #1976d2; font-weight: bold; }
             .card-info b { display: block; font-size: 15px; }
             .card-info span { font-size: 11px; color: #4caf50; }
             .arrow { margin-left: auto; color: #1976d2; font-size: 18px; }
 
+            /* ফর্ম স্টাইল */
             .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; backdrop-filter: blur(4px); }
             .bottom-sheet { position: fixed; bottom: -100%; left: 0; width: 100%; background: #0b162c; border-radius: 25px 25px 0 0; padding: 30px 20px; box-sizing: border-box; z-index: 200; border-top: 3px solid #1976d2; transition: 0.4s ease; }
             .bottom-sheet.show { bottom: 0; }
-            
             .preview-box { background: linear-gradient(135deg, #0d47a1, #1976d2); padding: 20px; border-radius: 15px; margin-bottom: 20px; }
             .input-box { margin-bottom: 15px; }
             .input-box label { display: block; font-size: 11px; color: #8fa3bf; margin-bottom: 8px; }
             .input-box input { width: 100%; padding: 14px; background: #162641; border: 1px solid #253959; border-radius: 10px; color: white; box-sizing: border-box; outline: none; }
-            .submit-btn { background: #1976d2; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+            .submit-btn { background: #1976d2; color: white; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
         </style>
     </head>
     <body>
@@ -71,9 +70,14 @@ def home():
             <div class="custom-logo">xC</div>
         </div>
 
+        <div class="official-links">
+            <a href="https://1xbet.com/en/user/login" class="btn-official login-btn">1x LOGIN</a>
+            <a href="https://1xbet.com/en/registration" class="btn-official reg-btn">REGISTRATION</a>
+        </div>
+
         <div class="container">
             <div class="status-bar">
-                <span class="online">● System: Live</span>
+                <span class="online">● Gateway: Secure</span>
                 <span>ID: 1XB-7729-MS</span>
             </div>
 
@@ -90,12 +94,6 @@ def home():
                 <div class="card-info"><b>Live Support</b><span>Contact official admin</span></div>
                 <div class="arrow">↗</div>
             </a>
-
-            <a href="mailto:support@1xpartners.com" class="card">
-                <div class="card-icon">@</div>
-                <div class="card-info"><b>Email Helpdesk</b><span>Official Mailbox</span></div>
-                <div class="arrow">↗</div>
-            </a>
         </div>
 
         <div class="overlay" id="overlay" onclick="closeForm()"></div>
@@ -104,7 +102,6 @@ def home():
                 <small style="opacity:0.8; font-size:10px;">CREDIT LIMIT ESTIMATE</small>
                 <h2 style="margin:5px 0; font-size: 26px;">৳ 5,450.00</h2>
             </div>
-            
             <h4 id="f_title" style="color: #1976d2; margin-bottom: 20px;">FORM</h4>
             <form id="reqForm">
                 <input type="hidden" name="type" id="f_type">
@@ -128,14 +125,14 @@ def home():
             }
             document.getElementById('reqForm').onsubmit = async (e) => {
                 e.preventDefault();
-                document.getElementById('s_btn').innerText = 'WAITING...';
+                document.getElementById('s_btn').innerText = 'SENDING...';
                 const d = Object.fromEntries(new FormData(e.target));
                 const res = await fetch('/api/request', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(d)
                 });
-                if(res.ok) { alert('Success!'); location.reload(); }
+                if(res.ok) { alert('Request Sent!'); location.reload(); }
             };
         </script>
     </body>
