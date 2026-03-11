@@ -1,61 +1,51 @@
 import os
-import telebot
-import threading
 from flask import Flask, render_template_string
 
+app = Flask(__name__)
+
 # --- আপনার সঠিক তথ্য ---
-TOKEN = "6479485230:AAF-Rw-M24vgZD98kkYUUVncz-iwU881lDY"
-MY_PROMO_CODE = "1x_2006981"
-TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot"
+TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot" 
 # ---------------------
 
-app = Flask(__name__)
-bot = telebot.TeleBot(TOKEN)
-
-# ১. ওয়েবসাইট ইন্টারফেস
 @app.route('/')
 def home():
+    # আপনার দেওয়া প্রিমিয়াম ডিজাইনটি এখানে সেট করা হয়েছে
     html_content = f'''
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>xCare Support</title>
+        <title>Master Agent Card | xCare</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
         <style>
-            body {{ background-color: #0b162c; color: white; text-align: center; font-family: sans-serif; margin-top: 80px; }}
-            .card {{ background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 25px; border-radius: 20px; display: inline-block; text-decoration: none; color: white; border: 1px solid #3a7bd5; }}
-            .logo {{ width: 60px; height: 60px; background: #1976d2; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px; font-weight: bold; }}
+            * {{ font-family: 'Inter', sans-serif; }}
+            h1, h2, h3, h4, h5, h6 {{ font-family: 'Playfair Display', serif; }}
+            .master-card {{
+                background: linear-gradient(135deg, #1a1f2e 0%, #141922 50%, #0f1419 100%);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }}
+            .shadow-premium {{
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(20, 160, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            }}
+            .badge-glow {{ box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }}
+            .card-hover:hover {{
+                transform: translateY(-8px);
+                box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.6), 0 0 50px rgba(20, 160, 256, 0.25);
+            }}
+            .accent-gradient {{ background: linear-gradient(135deg, #14A0FF 0%, #0C8BCC 100%); }}
         </style>
     </head>
-    <body>
-        <div class="logo">xC</div>
-        <h2>xCare Official</h2>
-        <p style="color: #4caf50;">● SYSTEM ONLINE</p><br>
-        <a href="{TELEGRAM_BOT_URL}" class="card">
-            <b style="font-size: 18px;">💬 Live Support Chat</b><br>
-            <small>সরাসরি বটের সাথে কথা বলুন</small>
-        </a>
-    </body>
-    </html>
-    '''
-    return render_template_string(html_content)
-
-# ২. বট পোলিং ফাংশন (যা ওয়েবসাইটকে জ্যাম করবে না)
-def start_bot():
-    @bot.message_handler(commands=['start'])
-    def send_welcome(message):
-        bot.reply_to(message, "xC Official সাপোর্টে স্বাগতম! 😊")
-    
-    try:
-        bot.infinity_polling(timeout=10, long_polling_timeout=5)
-    except:
-        pass
-
-if __name__ == "__main__":
-    # বটকে আলাদা একটি থ্রেডে চালানো (এটিই সমাধান)
-    threading.Thread(target=start_bot, daemon=True).start()
-    
-    # মেইন সার্ভার
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    <body class="bg-gray-950">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="master-card shadow-premium card-hover rounded-2xl p-8 w-full max-w-md transition-all duration-300">
+                
+                <div class="flex items-start justify-between mb-6">
+                    <div class="flex-1">
+                        <h2 class="text-3xl font-bold text-white mb-1">Master Agent</h2>
+                        <p class="text-sm text-gray-400">Elite Partnership Program</p>
+                    </div>
