@@ -9,7 +9,7 @@ TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot"
 
 @app.route('/')
 def home():
-    # নিচের কোডটি সাবধানে পুরোটা কপি করুন
+    # এখানে f''' শুরু হয়েছে
     html_content = f'''
     <!DOCTYPE html>
     <html lang="en">
@@ -66,3 +66,22 @@ def home():
                 <div class="grid grid-cols-3 gap-4 mb-8">
                     <div class="text-center p-3 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
                         <p class="text-xs text-gray-400 mb-1">Active Users</p>
+                        <p class="text-xl font-bold text-blue-400">500K+</p>
+                    </div>
+                </div>
+                <a href="{TELEGRAM_BOT_URL}" style="display: block; text-decoration: none;">
+                    <button class="w-full accent-gradient text-white font-semibold py-3 rounded-lg transition-all duration-300">
+                        Become a Master Agent
+                    </button>
+                </a>
+            </div>
+        </div>
+    </body>
+    </html>
+    '''
+    # এখানে ''' দিয়ে html_content শেষ হয়েছে
+    return render_template_string(html_content)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
