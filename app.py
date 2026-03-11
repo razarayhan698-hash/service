@@ -13,46 +13,44 @@ bot = telebot.TeleBot(TOKEN)
 
 @app.route('/')
 def home():
-    reg_url = f"https://1xbet-bangladesh.com/en/registration/?tag={MY_PROMO_CODE}"
-    # এখানে আপনার আগের সুন্দর ডিজাইনটি ফিরিয়ে আনা হয়েছে
+    # এই অংশটি আপনার ওয়েবসাইট দেখাবে
     html_content = f'''
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>xCare Support</title>
         <style>
-            body {{ background-color: #0b162c; color: white; text-align: center; font-family: sans-serif; margin-top: 50px; }}
-            .card {{ background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 25px; border-radius: 20px; display: inline-block; text-decoration: none; color: white; border: 1px solid #3a7bd5; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }}
-            .logo {{ width: 70px; height: 70px; background: #1976d2; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; font-weight: bold; }}
+            body {{ background-color: #0b162c; color: white; text-align: center; font-family: sans-serif; margin-top: 100px; }}
+            .btn {{ background: #1e3c72; color: white; padding: 20px 40px; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 20px; border: 1px solid #3a7bd5; }}
         </style>
     </head>
     <body>
-        <div class="logo">xC</div>
-        <h2>xC Official Support</h2>
-        <p style="color: #4caf50;">● SYSTEM ONLINE</p><br>
-        <a href="{TELEGRAM_BOT_URL}" class="card">
-            <b style="font-size: 18px;">💬 Live Support Chat</b><br>
-            <small>সরাসরি বটের সাথে কথা বলুন</small>
-        </a>
+        <div style="font-size: 50px; font-weight: bold; margin-bottom: 20px;">xC</div>
+        <h2 style="margin-bottom: 40px;">xCare Official Support</h2>
+        <a href="{TELEGRAM_BOT_URL}" class="btn">💬 Live Support Chat</a>
+        <p style="margin-top: 50px; color: #4caf50;">● SYSTEM STATUS: ONLINE</p>
     </body>
     </html>
     '''
     return render_template_string(html_content)
 
-# বটের অটো-রিপ্লাই ফাংশন
-def run_bot():
+# বটের জন্য আলাদা ফাংশন যাতে ওয়েবসাইট জ্যাম না হয়
+def start_bot():
     @bot.message_handler(commands=['start'])
     def welcome(message):
-        bot.reply_to(message, "xC Official সাপোর্টে স্বাগতম! 😊\\nআপনার প্রশ্নটি লিখুন।")
+        bot.reply_to(message, "xC Official সাপোর্টে স্বাগতম! 😊\\nআপনার প্রশ্নটি এখানে লিখুন।")
     
-    bot.infinity_polling()
+    try:
+        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    except:
+        pass
 
 if __name__ == "__main__":
-    # বটকে আলাদাভাবে চালানোর জন্য থ্রেডিং ব্যবহার করা হয়েছে
-    bot_thread = threading.Thread(target=run_bot)
-    bot_thread.daemon = True
-    bot_thread.start()
+    # বটকে ব্যাকগ্রাউন্ডে চালানোর জন্য থ্রেডিং
+    threading.Thread(target=start_bot, daemon=True).start()
     
-    # ফ্ল্যাস্ক সার্ভার চালানো
+    # মেইন সার্ভার চালু করা
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
