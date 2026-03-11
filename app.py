@@ -33,7 +33,7 @@ def home():
     </head>
     <body class="flex items-center justify-center min-h-screen p-6">
         <div class="glass-card rounded-3xl p-8 w-full max-w-md text-center">
-            <h1 class="text-6xl font-bold mb-2">xC</h1>
+            <h1 class="text-6xl font-bold mb-2 text-white">xC</h1>
             <p class="text-blue-400 text-xs uppercase tracking-widest mb-10 font-bold">Official Agent Application</p>
             <div class="space-y-4">
                 <a href="/apply/Master-Agent" class="block p-5 rounded-2xl bg-gray-800/50 border border-white/5 hover:border-blue-500 transition-all text-left" style="text-decoration: none;">
@@ -79,4 +79,53 @@ def apply_form(agent_type):
                 <input type="hidden" name="category" value="{agent_type}">
                 <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Country</label>
-                    <input type="text" name="country" required placeholder="Enter your country" class="w-full p-4 rounded-xl focus:outline-none focus:border-blue
+                    <input type="text" name="country" required placeholder="Enter your country" class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Telegram Username</label>
+                    <input type="text" name="username" required placeholder="Example: @username" class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Telegram Number</label>
+                    <input type="tel" name="phone" required placeholder="Example: +880..." class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
+                </div>
+                <button type="submit" class="w-full py-4 bg-blue-600 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg">
+                    Submit Application
+                </button>
+            </form>
+            <a href="/" class="block text-center mt-6 text-gray-500 text-sm underline">Go Back</a>
+        </div>
+    </body>
+    </html>
+    '''
+    return render_template_string(html_content)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    cat = request.form.get('category')
+    country = request.form.get('country')
+    user = request.form.get('username')
+    phone = request.form.get('phone')
+    
+    msg = f"<b>🔔 NEW APPLICATION</b>\\n\\n" \
+          f"<b>Category:</b> {cat}\\n" \
+          f"<b>Country:</b> {country}\\n" \
+          f"<b>Telegram:</b> {user}\\n" \
+          f"<b>Phone:</b> {phone}"
+    
+    send_to_telegram(msg)
+    
+    html_content = '''
+    <body style="background:#020617; color:white; font-family:sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; text-align:center; padding:20px;">
+        <div>
+            <h2 style="font-size:2rem; margin-bottom:1rem;">✅ Application Submitted!</h2>
+            <p style="color:#9ca3af; margin-bottom:2rem;">Our representative will contact you via Telegram within <b>48 hours</b>.</p>
+            <a href="/" style="padding:12px 30px; background:#2563eb; border-radius:30px; color:white; text-decoration:none; font-weight:bold;">Return to Home</a>
+        </div>
+    </body>
+    '''
+    return render_template_string(html_content)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
