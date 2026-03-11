@@ -1,83 +1,75 @@
 import os
+import telebot
 from flask import Flask, render_template_string
 
+# --- আপনার তথ্য ---
+TOKEN = "6479485230:AAF-Rw-M24vgZD98kkYUUVncz-iwU881lDY"
+MY_PROMO_CODE = "1x_2006981"
+TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot"
+# -----------------
+
 app = Flask(__name__)
+bot = telebot.TeleBot(TOKEN)
 
-# আপনার নির্দিষ্ট তথ্য
-MY_PROMO_CODE = "1x_2006981" 
-TELEGRAM_BOT_URL = "https://t.me/Your_Link" 
-
+# --- ১. পোর্টাল ইন্টারফেস ---
 @app.route('/')
 def home():
-    # বাংলাদেশে কার্যকরী লিঙ্ক
     reg_url = f"https://1xbet-bangladesh.com/en/registration/?tag={MY_PROMO_CODE}"
-    login_url = "https://1xbet-bangladesh.com/en/user/login"
-
+    
     html_content = '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>xC Official Portal</title>
+        <title>xCare Official Support</title>
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #0b162c; color: white; margin: 0; padding: 0; }
-            .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #162641; border-bottom: 1px solid #253959; }
-            .btn-nav { padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 13px; color: white; }
-            .btn-login { background: #34495e; }
-            .btn-reg { background: #60a12e; }
-            .container { padding: 20px; max-width: 500px; margin: auto; text-align: center; }
-            .main-logo { width: 80px; height: 80px; background: #1976d2; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 20px auto; font-size: 32px; font-weight: bold; box-shadow: 0 0 25px rgba(25, 118, 210, 0.4); }
-            .section-header { text-align: left; font-size: 11px; color: #8a9ab5; margin: 25px 0 12px 5px; text-transform: uppercase; letter-spacing: 1.5px; border-left: 3px solid #1976d2; padding-left: 10px; }
-            .card { background: #162641; padding: 16px; border-radius: 15px; display: flex; align-items: center; margin-bottom: 12px; text-decoration: none; color: white; border: 1px solid #1c2e4a; transition: 0.3s; position: relative; }
-            .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 22px; flex-shrink: 0; }
-            .icon-moneygo { background: #ff006e; color: white; }
-            .icon-bot { background: linear-gradient(135deg, #2980b9, #3498db); color: white; }
-            .card-info { text-align: left; }
-            .card-info b { font-size: 15px; display: block; color: #fff; }
-            .card-info small { color: #8a9ab5; font-size: 11px; }
-            .guide-box { background: rgba(255, 204, 0, 0.1); border: 1px dashed #ffcc00; padding: 10px; border-radius: 10px; margin-top: 8px; font-size: 10px; color: #ffcc00; display: block; }
-            .badge { position: absolute; top: 10px; right: 15px; font-size: 9px; padding: 2px 7px; border-radius: 4px; font-weight: bold; background: #e74c3c; }
+            body { font-family: 'Segoe UI', sans-serif; background-color: #0b162c; color: white; margin: 0; text-align: center; }
+            .container { padding: 20px; max-width: 500px; margin: auto; }
+            .main-logo { width: 80px; height: 80px; background: #1976d2; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 20px auto; font-size: 32px; font-weight: bold; }
+            .live-chat-card { background: linear-gradient(135deg, #1e3c72, #2a5298); padding: 20px; border-radius: 18px; display: flex; align-items: center; margin-bottom: 20px; text-decoration: none; color: white; border: 1px solid #3a7bd5; }
+            .chat-dot { width: 12px; height: 12px; background: #00ff00; border-radius: 50%; margin-right: 15px; box-shadow: 0 0 10px #00ff00; }
+            .text-box { text-align: left; }
         </style>
     </head>
     <body>
-        <div class="top-nav">
-            <div style="font-weight: 900; font-size: 20px;">1XBET</div>
-            <div class="nav-buttons">
-                <a href="{{ login }}" class="btn-nav btn-login">Log in</a>
-                <a href="{{ reg }}" class="btn-nav btn-reg">Registration</a>
-            </div>
-        </div>
         <div class="container">
             <div class="main-logo">xC</div>
-            <p style="font-size: 11px; color: #4caf50;">● SYSTEM STATUS: ONLINE</p>
+            <p style="color: #4caf50;">● SUPPORT ONLINE</p>
             
-            <div class="section-header">Deposit Agents</div>
-            <a href="{{ telegram }}" class="card">
-                <div class="card-icon icon-moneygo">M</div>
-                <div class="card-info">
-                    <b>1xbet MoneyGo Agent</b>
-                    <small>Official VIP Agent for fast Cash-in/out.</small>
+            <a href="{{ tg_link }}" class="live-chat-card">
+                <div class="chat-dot"></div>
+                <div class="text-box">
+                    <b>Live Support Chat</b><br>
+                    <small>সরাসরি আমাদের বটের সাথে কথা বলুন</small>
                 </div>
             </a>
             
-            <div class="section-header">Automated Prediction</div>
-            <a href="{{ telegram }}" class="card">
-                <span class="badge">LIVE AI</span>
-                <div class="card-icon icon-bot">🤖</div>
-                <div class="card-info">
-                    <b>Signal & Prediction Bot</b>
-                    <small>Get 99% accurate AI game signals.</small>
-                    <span class="guide-box">
-                        📢 <b>How to Use:</b> ক্লিক করে টেলিগ্রামে 'Start' দিন। আমাদের সিগন্যাল পেতে প্রোমো কোড <b>{{ promo }}</b> দিয়ে একাউন্ট থাকতে হবে।
-                    </span>
-                </div>
-            </a>
+            <a href="{{ reg_url }}" style="color: #60a12e; text-decoration: none; font-weight: bold;">Create New Account</a>
         </div>
     </body>
     </html>
     '''
-    return render_template_string(html_content, reg=reg_url, login=login_url, telegram=TELEGRAM_BOT_URL, promo=MY_PROMO_CODE)
+    return render_template_string(html_content, reg_url=reg_url, tg_link=TELEGRAM_BOT_URL)
 
+# --- ২. বটের অটো-রিপ্লাই লজিক ---
+@bot.message_handler(commands=['start'])
+def welcome(message):
+    bot.reply_to(message, f"xC Official সাপোর্টে স্বাগতম! 😊\\n\\nসিগন্যাল পেতে 'Signal' লিখুন।\\nআমাদের প্রোমো কোড: {MY_PROMO_CODE}")
+
+@bot.message_handler(func=lambda message: True)
+def auto_reply(message):
+    user_msg = message.text.lower()
+    if 'signal' in user_msg:
+        bot.reply_to(message, "🚀 পরবর্তী গেমে ১.৮x এ ক্যাশআউট করার চেষ্টা করুন।\\nএটি একটি এআই প্রেডিকশন।")
+    elif 'deposit' in user_msg:
+        bot.reply_to(message, "ডিপোজিট করতে আপনার বিকাশ বা নগদ নম্বর লিখে পাঠান।")
+    else:
+        bot.reply_to(message, "ধন্যবাদ! আপনার মেসেজটি আমরা পেয়েছি। আমাদের এজেন্ট শীঘ্রই আপনার সাথে যোগাযোগ করবে।")
+
+# সার্ভার এবং বট একসাথে চালানোর জন্য
 if __name__ == "__main__":
+    # বটকে আলাদা থ্রেডে চালানো উচিত, তবে সহজ করার জন্য পোলিং দেওয়া হলো
+    import threading
+    threading.Thread(target=bot.infinity_polling).start()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
