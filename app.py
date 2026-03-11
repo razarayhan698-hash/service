@@ -1,14 +1,15 @@
-from flask import Flask, render_template_string, os
+import os
+from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
-# আপনার তথ্য
+# আপনার নির্দিষ্ট তথ্য
 MY_PROMO_CODE = "1x_2006981" 
-TELEGRAM_BOT_URL = "https://t.me/Your_Link" # আপনার টেলিগ্রাম লিঙ্ক এখানে দিন
+TELEGRAM_BOT_URL = "https://t.me/Your_Link" 
 
 @app.route('/')
 def home():
-    # বাংলাদেশে কার্যকরী মিরর লিঙ্ক
+    # বাংলাদেশে কার্যকরী লিঙ্ক
     reg_url = f"https://1xbet-bangladesh.com/en/registration/?tag={MY_PROMO_CODE}"
     login_url = "https://1xbet-bangladesh.com/en/user/login"
 
@@ -43,23 +44,25 @@ def home():
         <div class="top-nav">
             <div style="font-weight: 900; font-size: 20px;">1XBET</div>
             <div class="nav-buttons">
-                <a href="{{ login_url }}" class="btn-nav btn-login">Log in</a>
-                <a href="{{ reg_url }}" class="btn-nav btn-reg">Registration</a>
+                <a href="{{ login }}" class="btn-nav btn-login">Log in</a>
+                <a href="{{ reg }}" class="btn-nav btn-reg">Registration</a>
             </div>
         </div>
         <div class="container">
             <div class="main-logo">xC</div>
             <p style="font-size: 11px; color: #4caf50;">● SYSTEM STATUS: ONLINE</p>
+            
             <div class="section-header">Deposit Agents</div>
-            <a href="{{ telegram_url }}" class="card">
+            <a href="{{ telegram }}" class="card">
                 <div class="card-icon icon-moneygo">M</div>
                 <div class="card-info">
                     <b>1xbet MoneyGo Agent</b>
                     <small>Official VIP Agent for fast Cash-in/out.</small>
                 </div>
             </a>
+            
             <div class="section-header">Automated Prediction</div>
-            <a href="{{ telegram_url }}" class="card">
+            <a href="{{ telegram }}" class="card">
                 <span class="badge">LIVE AI</span>
                 <div class="card-icon icon-bot">🤖</div>
                 <div class="card-info">
@@ -74,7 +77,7 @@ def home():
     </body>
     </html>
     '''
-    return render_template_string(html_content, reg_url=reg_url, login_url=login_url, telegram_url=TELEGRAM_BOT_URL, promo=MY_PROMO_CODE)
+    return render_template_string(html_content, reg=reg_url, login=login_url, telegram=TELEGRAM_BOT_URL, promo=MY_PROMO_CODE)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
