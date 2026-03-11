@@ -9,79 +9,54 @@ TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot"
 
 @app.route('/')
 def home():
-    # এখানে f''' শুরু হয়েছে
+    # এখানে f''' শুরু হয়েছে, তাই CSS ব্র্যাকেটগুলো {{ }} হতে হবে
     html_content = f'''
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Master Agent Card | xCare</title>
+        <title>Master Agent Portal | xCare</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
         <style>
-            * {{ font-family: 'Inter', sans-serif; }}
-            h1, h2, h3, h4, h5, h6 {{ font-family: 'Playfair Display', serif; }}
+            body {{ background-color: #030712; color: white; font-family: 'Inter', sans-serif; }}
             .master-card {{
-                background: linear-gradient(135deg, #1a1f2e 0%, #141922 50%, #0f1419 100%);
-                backdrop-filter: blur(10px);
+                background: linear-gradient(135deg, #1a1f2e 0%, #0f1419 100%);
                 border: 1px solid rgba(255, 255, 255, 0.1);
-            }}
-            .shadow-premium {{
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(20, 160, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            }}
-            .badge-glow {{ box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }}
-            .card-hover:hover {{
-                transform: translateY(-8px);
-                box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.6), 0 0 50px rgba(20, 160, 255, 0.25);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             }}
             .accent-gradient {{ background: linear-gradient(135deg, #14A0FF 0%, #0C8BCC 100%); }}
         </style>
     </head>
-    <body class="bg-gray-950">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="master-card shadow-premium card-hover rounded-2xl p-8 w-full max-w-md transition-all duration-300">
-                <div class="flex items-start justify-between mb-6">
-                    <div class="flex-1">
-                        <h2 class="text-3xl font-bold text-white mb-1">Master Agent</h2>
-                        <p class="text-sm text-gray-400">Elite Partnership Program</p>
-                    </div>
-                    <div class="badge-glow w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
+    <body class="flex items-center justify-center min-h-screen p-4">
+        <div class="master-card rounded-2xl p-8 w-full max-w-md text-center">
+            <h1 style="font-family: 'Playfair Display', serif;" class="text-4xl font-bold mb-2">xC</h1>
+            <h2 class="text-2xl font-bold mb-6">Master Agent Portal</h2>
+            
+            <div class="space-y-4 mb-8 text-left">
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-800">
+                    <p class="text-sm text-gray-400">Commission Rate</p>
+                    <p class="text-xl font-bold text-blue-400">Up to 45%</p>
                 </div>
-                <div class="space-y-4 mb-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-1 h-6 accent-gradient rounded-full flex-shrink-0"></div>
-                        <div>
-                            <p class="text-sm text-gray-300 font-medium">Commission Rate</p>
-                            <p class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Up to 45%</p>
-                        </div>
-                    </div>
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-800">
+                    <p class="text-sm text-gray-400">Support Status</p>
+                    <p class="text-xl font-bold text-green-400">● 24/7 Online</p>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mb-8">
-                    <div class="text-center p-3 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
-                        <p class="text-xs text-gray-400 mb-1">Active Users</p>
-                        <p class="text-xl font-bold text-blue-400">500K+</p>
-                    </div>
-                </div>
-                <a href="{TELEGRAM_BOT_URL}" style="display: block; text-decoration: none;">
-                    <button class="w-full accent-gradient text-white font-semibold py-3 rounded-lg transition-all duration-300">
-                        Become a Master Agent
-                    </button>
-                </a>
             </div>
+
+            <a href="{TELEGRAM_BOT_URL}" class="block w-full accent-gradient text-white font-bold py-4 rounded-xl transition hover:scale-105 active:scale-95 shadow-lg" style="text-decoration: none;">
+                Become a Master Agent
+            </a>
+            
+            <p class="text-xs text-gray-500 mt-6 italic">Verified Partner | Premium Elite Tier</p>
         </div>
     </body>
     </html>
     '''
-    # এখানে ''' দিয়ে html_content শেষ হয়েছে
     return render_template_string(html_content)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    # Render-এর জন্য ডিফল্ট পোর্ট ১০০০০ ব্যবহার করা নিরাপদ
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
