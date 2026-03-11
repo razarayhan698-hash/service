@@ -1,106 +1,153 @@
 import os
-from flask import Flask, render_template_string
+import requests
+from flask import Flask, render_template_string, request
 
 app = Flask(__name__)
 
-# --- আপনার টেলিগ্রাম লিঙ্ক (সব বাটনের জন্য একই লিঙ্ক রাখা হয়েছে) ---
-TELEGRAM_BOT_URL = "https://t.me/Instantpayment24_bot"
+# --- আপনার টেলিগ্রাম বোটের তথ্য এখানে দিন ---
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"  # @BotFather থেকে পাওয়া টোকেন দিন
+ADMIN_CHAT_ID = "YOUR_CHAT_ID_HERE" # আপনার টেলিগ্রাম চ্যাট আইডি দিন
+
+def send_to_telegram(message):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": ADMIN_CHAT_ID, "text": message, "parse_mode": "HTML"}
+    try:
+        requests.post(url, json=payload)
+    except Exception as e:
+        print(f"Error sending to Telegram: {e}")
 
 @app.route('/')
 def home():
+    # মূল হোম পেজ যেখানে তিনটি ক্যাটাগরি আছে
+    html_content = '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Official Agent Portal | xCare</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            body { background-color: #020617; color: white; font-family: 'Inter', sans-serif; }
+            .glass-card {
+                background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .btn-apply { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+        </style>
+    </head>
+    <body class="flex items-center justify-center min-h-screen p-6">
+        <div class="glass-card rounded-3xl p-8 w-full max-w-md text-center">
+            <h1 class="text-5xl font-bold mb-2">xC</h1>
+            <p class="text-blue-400 text-xs uppercase tracking-widest mb-8">Official Agent Application</p>
+            
+            <div class="space-y-4">
+                <a href="/apply/Master-Agent" class="block p-4 rounded-2xl bg-gray-800/50 border border-white/5 hover:border-blue-500 transition-all text-left group">
+                    <p class="font-bold text-lg">Master Agent</p>
+                    <p class="text-xs text-gray-400">Apply for top-level distribution</p>
+                </a>
+                <a href="/apply/E-Wallet-Agent" class="block p-4 rounded-2xl bg-gray-800/50 border border-white/5 hover:border-green-500 transition-all text-left">
+                    <p class="font-bold text-lg text-green-400">E-Wallet Agent</p>
+                    <p class="text-xs text-gray-400">Local Bkash/Nagad/Rocket services</p>
+                </a>
+                <a href="/apply/MoneyGo-Agent" class="block p-4 rounded-2xl bg-gray-800/50 border border-white/5 hover:border-purple-500 transition-all text-left">
+                    <p class="font-bold text-lg text-purple-400">MoneyGo Agent</p>
+                    <p class="text-xs text-gray-400">Global VIP deposit system</p>
+                </a>
+            </div>
+        </div>
+    </body>
+    </html>
+    '''
+    return render_template_string(html_content)
+
+@app.route('/apply/<agent_type>')
+def apply_form(agent_type):
+    # অ্যাপ্লিকেশন ফর্ম পেজ
     html_content = f'''
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Agent Portal | xCare Official</title>
+        <title>Apply for {agent_type}</title>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
         <style>
             body {{ background-color: #020617; color: white; font-family: 'Inter', sans-serif; }}
-            .glass-card {{
-                background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.8) 100%);
-                backdrop-filter: blur(12px);
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            }}
-            .btn-master {{ background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }}
-            .btn-wallet {{ background: linear-gradient(135deg, #10b981 0%, #059669 100%); }}
-            .btn-moneygo {{ background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }}
-            .status-dot {{
-                width: 8px;
-                height: 8px;
-                background-color: #22c55e;
-                border-radius: 50%;
-                display: inline-block;
-                margin-right: 6px;
-                box-shadow: 0 0 8px #22c55e;
-                animation: pulse 2s infinite;
-            }}
-            @keyframes pulse {{
-                0% {{ opacity: 1; }}
-                50% {{ opacity: 0.5; }}
-                100% {{ opacity: 1; }}
-            }}
+            input {{ background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }}
         </style>
     </head>
     <body class="flex items-center justify-center min-h-screen p-6">
-        <div class="glass-card rounded-3xl p-8 w-full max-w-md text-center">
-            <!-- Logo Area -->
-            <div class="mb-6">
-                <h1 style="font-family: 'Playfair Display', serif;" class="text-5xl font-bold tracking-tighter text-white">xC</h1>
-                <div class="mt-2 text-[10px] uppercase tracking-[0.3em] text-blue-400 font-semibold">Official Support System</div>
-            </div>
-
-            <h2 class="text-xl font-semibold mb-8 text-gray-200">Select Agent Category</h2>
+        <div class="bg-gray-900 rounded-3xl p-8 w-full max-w-md border border-white/10 shadow-2xl">
+            <h2 class="text-2xl font-bold mb-2">Apply for {agent_type}</h2>
+            <p class="text-gray-400 text-sm mb-8">সবগুলো তথ্য সঠিকভাবে পূরণ করুন।</p>
             
-            <!-- Info Labels -->
-            <div class="flex justify-between mb-8 px-2">
-                <div class="text-left">
-                    <p class="text-[10px] text-gray-500 uppercase font-bold">System Status</p>
-                    <p class="text-sm font-medium text-white"><span class="status-dot"></span>Online</p>
+            <form action="/submit" method="POST" class="space-y-5">
+                <input type="hidden" name="category" value="{agent_type}">
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">আপনার দেশ (Country)</label>
+                    <input type="text" name="country" required placeholder="Ex: Bangladesh" class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
                 </div>
-                <div class="text-right">
-                    <p class="text-[10px] text-gray-500 uppercase font-bold">Response Time</p>
-                    <p class="text-sm font-medium text-white">Instant</p>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">টেলিগ্রাম ইউজারনেম (Telegram Username)</label>
+                    <input type="text" name="username" required placeholder="Ex: @username" class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
                 </div>
-            </div>
 
-            <!-- Action Buttons -->
-            <div class="space-y-4">
-                <!-- Master Agent Button -->
-                <a href="{TELEGRAM_BOT_URL}" class="btn-master flex items-center justify-between p-4 rounded-2xl transition hover:scale-[1.02] active:scale-95 shadow-lg group" style="text-decoration: none;">
-                    <div class="text-left">
-                        <p class="text-white font-bold text-lg">Master Agent</p>
-                        <p class="text-blue-100 text-xs">Full distribution control</p>
-                    </div>
-                    <span class="text-2xl group-hover:translate-x-1 transition-transform">👑</span>
-                </a>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">টেলিগ্রাম নাম্বার (Telegram Number)</label>
+                    <input type="tel" name="phone" required placeholder="Ex: +88017..." class="w-full p-4 rounded-xl focus:outline-none focus:border-blue-500">
+                </div>
 
-                <!-- E-Wallet Agent Button -->
-                <a href="{TELEGRAM_BOT_URL}" class="btn-wallet flex items-center justify-between p-4 rounded-2xl transition hover:scale-[1.02] active:scale-95 shadow-lg group" style="text-decoration: none;">
-                    <div class="text-left">
-                        <p class="text-white font-bold text-lg">E-Wallet Agent</p>
-                        <p class="text-green-100 text-xs">Bkash, Nagad, Rocket local</p>
-                    </div>
-                    <span class="text-2xl group-hover:translate-x-1 transition-transform">৳</span>
-                </a>
-
-                <!-- MoneyGo Agent Button -->
-                <a href="{TELEGRAM_BOT_URL}" class="btn-moneygo flex items-center justify-between p-4 rounded-2xl transition hover:scale-[1.02] active:scale-95 shadow-lg group" style="text-decoration: none;">
-                    <div class="text-left">
-                        <p class="text-white font-bold text-lg">MoneyGo Agent</p>
-                        <p class="text-purple-100 text-xs">Global VIP deposit system</p>
-                    </div>
-                    <span class="text-2xl group-hover:translate-x-1 transition-transform">💎</span>
-                </a>
-            </div>
+                <button type="submit" class="w-full py-4 bg-blue-600 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">
+                    আবেদন জমা দিন (Submit Application)
+                </button>
+            </form>
             
-            <div class="mt-8 pt-6 border-t border-white/5">
-                <p class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">Official Verification</p>
-                <p class="text-xs text-blue-400/80 italic">Verified Partner | Premium Elite Support Tier</p>
-            </div>
+            <a href="/" class="block text-center mt-6 text-gray-500 text-sm underline">পিছনে যান</a>
+        </div>
+    </body>
+    </html>
+    '''
+    return render_template_string(html_content)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    # ফর্ম সাবমিট করার পর কাজ
+    category = request.form.get('category')
+    country = request.form.get('country')
+    username = request.form.get('username')
+    phone = request.form.get('phone')
+
+    # টেলিগ্রামে মেসেজ পাঠানো
+    msg = f"<b>🔔 New Agent Application</b>\n\n" \
+          f"<b>Type:</b> {category}\n" \
+          f"<b>Country:</b> {country}\n" \
+          f"<b>Username:</b> {username}\n" \
+          f"<b>Phone:</b> {phone}"
+    
+    send_to_telegram(msg)
+
+    # ইউজারকে ধন্যবাদ জানানো
+    html_content = '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-950 flex items-center justify-center min-h-screen p-6 text-white text-center">
+        <div class="max-w-md">
+            <div class="text-6xl mb-6">✅</div>
+            <h2 class="text-3xl font-bold mb-4">আবেদন সফল হয়েছে!</h2>
+            <p class="text-gray-400 leading-relaxed mb-8">
+                আপনার তথ্য আমাদের কাছে পৌঁছেছে। আমাদের অফিসিয়াল পতিনিধি আগামী <b>৪৮ ঘন্টার</b> ভিতরে আপনার টেলিগ্রামে মেসেজ দিবে। অনুগ্রহ করে অপেক্ষা করুন।
+            </p>
+            <a href="/" class="px-8 py-3 bg-blue-600 rounded-full font-bold">হোম পেজে ফিরুন</a>
         </div>
     </body>
     </html>
