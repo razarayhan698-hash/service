@@ -6,28 +6,42 @@ from threading import Thread
 app = Flask(__name__)
 
 # --- আপনার টেলিগ্রাম বোটের তথ্য ---
+# সতর্কতা: আপনার এই টোকেনটি এখন পাবলিক হয়ে গেছে। BotFather থেকে এটি Revoke করে নতুন টোকেন নিয়ে এখানে বসাবেন।
 API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk'
 bot = telebot.TeleBot(API_TOKEN)
 
 # --- অটো-রিপ্লাই লজিক ---
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
-    text = message.text.lower()
-    if "hi" in text or "hello" in text or "হাই" in text or "হ্যালো" in text:
-        bot.reply_to(message, "হ্যালো স্যার! 👋 xCare সাপোর্ট লাইনে আপনাকে স্বাগতম। 😊")
-    elif "agent" in text or "এজেন্ট" in text:
-        bot.reply_to(message, "👑 মাস্টার এজেন্ট হতে চাইলে আপনার ফোন নম্বরটি এখানে দিন।")
-    else:
-        bot.reply_to(message, "আপনার মেসেজটি আমাদের অপারেটরের কাছে পৌঁছেছে। ✨")
+    try:
+        # মেসেজে টেক্সট না থাকলে (ছবি/স্টিকার হলে) এরর এড়াতে চেক করে নেওয়া
+        if not message.text:
+            return
+            
+        text = message.text.lower()
+        if "hi" in text or "hello" in text or "হাই" in text or "হ্যালো" in text:
+            bot.reply_to(message, "হ্যালো স্যার! 👋 xCare সাপোর্ট লাইনে আপনাকে স্বাগতম। 😊")
+        elif "agent" in text or "এজেন্ট" in text:
+            bot.reply_to(message, "👑 মাস্টার এজেন্ট হতে চাইলে আপনার ফোন নম্বরটি এখানে দিন।")
+        else:
+            bot.reply_to(message, "আপনার মেসেজটি আমাদের অপারেটরের কাছে পৌঁছেছে। ✨")
+            
+    except Exception as e:
+        print(f"Message handle error: {e}")
 
 def run_bot():
-    # বোটকে সচল রাখার জন্য ইনফিটি পোলিং
-    bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    try:
+        # পোলিং চালুর আগে যেকোনো পুরোনো ওয়েবহুক ক্লিয়ার করে নেওয়া
+        bot.remove_webhook()
+        # বোটকে সচল রাখার জন্য ইনফিনিটি পোলিং
+        bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    except Exception as e:
+        print(f"Polling error: {e}")
 
 # --- আপনার সেই চমৎকার নীল রঙের ডিজাইন ---
 @app.route('/')
 def home():
-    html_content = f'''
+    html_content = '''
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -36,9 +50,9 @@ def home():
         <title>xCare Support</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            body {{ background-color: #0b1528; color: white; }}
-            .card-bg {{ background: #16243d; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }}
-            .card-bg:hover {{ border-color: #3b82f6; }}
+            body { background-color: #0b1528; color: white; }
+            .card-bg { background: #16243d; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+            .card-bg:hover { border-color: #3b82f6; }
         </style>
     </head>
     <body class="p-6">
@@ -75,7 +89,6 @@ def home():
     '''
     return render_template_string(html_content)
 
-# --- আপনার চাওয়া অংশটি এখানে যুক্ত করা হলো ---
 if __name__ == "__main__":
     # বোট চালু করা
     Thread(target=run_bot, daemon=True).start()
