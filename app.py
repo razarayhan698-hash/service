@@ -5,11 +5,11 @@ from threading import Thread
 
 app = Flask(__name__)
 
-# আপনার সঠিক বোট টোকেন
+# --- আপনার টেলিগ্রাম বোটের তথ্য ---
 API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk'
 bot = telebot.TeleBot(API_TOKEN)
 
-# --- অটো-রিপ্লাই লজিক যা আপনার সমস্যার সমাধান করবে ---
+# --- অটো-রিপ্লাই লজিক ---
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
     text = message.text.lower()
@@ -21,10 +21,10 @@ def handle_all_messages(message):
         bot.reply_to(message, "আপনার মেসেজটি আমাদের অপারেটরের কাছে পৌঁছেছে। ✨")
 
 def run_bot():
-    # এটি আপনার বোটকে সবসময় সচল রাখবে
+    # বোটকে সচল রাখার জন্য ইনফিটি পোলিং
     bot.infinity_polling(timeout=10, long_polling_timeout=5)
 
-# --- আপনার সেই চমৎকার নীল রঙের পেজ ---
+# --- আপনার সেই চমৎকার নীল রঙের ডিজাইন ---
 @app.route('/')
 def home():
     html_content = f'''
@@ -37,26 +37,36 @@ def home():
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
             body {{ background-color: #0b1528; color: white; }}
-            .card-bg {{ background: #16243d; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }}
+            .card-bg {{ background: #16243d; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }}
+            .card-bg:hover {{ border-color: #3b82f6; }}
         </style>
     </head>
     <body class="p-6">
-        <div class="max-w-md mx-auto space-y-6">
-            <h1 class="text-3xl font-bold italic text-center">xCare</h1>
+        <div class="max-w-md mx-auto space-y-6 text-center">
+            <h1 class="text-4xl font-bold italic text-blue-500">xCare</h1>
+            
             <a href="https://t.me/xcaresupport_bot" class="block">
                 <div class="card-bg p-6 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-4 text-left">
                         <span class="text-3xl">💬</span>
-                        <div><p class="font-bold">Operator Chat</p><p class="text-xs text-gray-400">Direct bot support</p></div>
+                        <div>
+                            <p class="font-bold text-xl">Operator Chat</p>
+                            <p class="text-xs text-gray-400">Talk to our live bot</p>
+                        </div>
                     </div>
                     <span class="text-green-400 font-bold animate-pulse">Online</span>
                 </div>
             </a>
-            <div class="card-bg p-6 flex justify-between items-center text-white">
-                <div><p class="text-xl font-bold">Master Agent</p><p class="text-xs text-gray-400">Distribution Management</p></div>
+
+            <div class="card-bg p-6 flex justify-between items-center text-left">
+                <div>
+                    <p class="text-xl font-bold">Master Agent</p>
+                    <p class="text-xs text-gray-400">Distribution Management</p>
+                </div>
                 <span class="text-3xl">👑</span>
             </div>
-            <footer class="text-center pt-8 text-gray-600 text-[10px]">
+
+            <footer class="pt-10 text-gray-600 text-[10px] uppercase tracking-widest">
                 © 2026 xCare Professional Services
             </footer>
         </div>
@@ -65,10 +75,11 @@ def home():
     '''
     return render_template_string(html_content)
 
+# --- আপনার চাওয়া অংশটি এখানে যুক্ত করা হলো ---
 if __name__ == "__main__":
-    # বোটকে আলাদাভাবে চালু করা
+    # বোট চালু করা
     Thread(target=run_bot, daemon=True).start()
     
-    # আপনার লগের পোর্টের সাথে মিল রেখে সেটিংস
+    # লগের পোর্টের সাথে মিল রেখে সেটিংস
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
