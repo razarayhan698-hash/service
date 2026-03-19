@@ -5,40 +5,38 @@ from threading import Thread
 
 app = Flask(__name__)
 
-# --- আপনার টেলিগ্রাম বোটের তথ্য ---
-# সতর্কতা: আপনার এই টোকেনটি এখন পাবলিক হয়ে গেছে। BotFather থেকে এটি Revoke করে নতুন টোকেন নিয়ে এখানে বসাবেন।
-API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk'
+# --- আপনার টেলিগ্রাম বোটের নতুন টোকেন এখানে বসান ---
+# নিচের 'বসান_এখানে' লেখাটি মুছে আপনার নতুন টোকেনটি পেস্ট করুন।
+API_TOKEN = 'বসান_এখানে' 
 bot = telebot.TeleBot(API_TOKEN)
 
 # --- অটো-রিপ্লাই লজিক ---
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
     try:
-        # মেসেজে টেক্সট না থাকলে (ছবি/স্টিকার হলে) এরর এড়াতে চেক করে নেওয়া
         if not message.text:
             return
             
         text = message.text.lower()
-        if "hi" in text or "hello" in text or "হাই" in text or "হ্যালো" in text:
+        if any(word in text for word in ["hi", "hello", "হাই", "হ্যালো"]):
             bot.reply_to(message, "হ্যালো স্যার! 👋 xCare সাপোর্ট লাইনে আপনাকে স্বাগতম। 😊")
-        elif "agent" in text or "এজেন্ট" in text:
+        elif any(word in text for word in ["agent", "এজেন্ট"]):
             bot.reply_to(message, "👑 মাস্টার এজেন্ট হতে চাইলে আপনার ফোন নম্বরটি এখানে দিন।")
         else:
             bot.reply_to(message, "আপনার মেসেজটি আমাদের অপারেটরের কাছে পৌঁছেছে। ✨")
             
     except Exception as e:
-        print(f"Message handle error: {e}")
+        print(f"Error: {e}")
 
 def run_bot():
     try:
-        # পোলিং চালুর আগে যেকোনো পুরোনো ওয়েবহুক ক্লিয়ার করে নেওয়া
         bot.remove_webhook()
-        # বোটকে সচল রাখার জন্য ইনফিনিটি পোলিং
+        print("Bot is running...")
         bot.infinity_polling(timeout=10, long_polling_timeout=5)
     except Exception as e:
         print(f"Polling error: {e}")
 
-# --- আপনার সেই চমৎকার নীল রঙের ডিজাইন ---
+# --- আপনার নীল রঙের ওয়েব ইন্টারফেস ---
 @app.route('/')
 def home():
     html_content = '''
@@ -58,28 +56,16 @@ def home():
     <body class="p-6">
         <div class="max-w-md mx-auto space-y-6 text-center">
             <h1 class="text-4xl font-bold italic text-blue-500">xCare</h1>
-            
-            <a href="https://t.me/xcaresupport_bot" class="block">
-                <div class="card-bg p-6 flex items-center justify-between">
-                    <div class="flex items-center gap-4 text-left">
-                        <span class="text-3xl">💬</span>
-                        <div>
-                            <p class="font-bold text-xl">Operator Chat</p>
-                            <p class="text-xs text-gray-400">Talk to our live bot</p>
-                        </div>
+            <div class="card-bg p-6 flex items-center justify-between">
+                <div class="flex items-center gap-4 text-left">
+                    <span class="text-3xl">💬</span>
+                    <div>
+                        <p class="font-bold text-xl text-white">Operator Chat</p>
+                        <p class="text-xs text-gray-400">Direct bot support</p>
                     </div>
-                    <span class="text-green-400 font-bold animate-pulse">Online</span>
                 </div>
-            </a>
-
-            <div class="card-bg p-6 flex justify-between items-center text-left">
-                <div>
-                    <p class="text-xl font-bold">Master Agent</p>
-                    <p class="text-xs text-gray-400">Distribution Management</p>
-                </div>
-                <span class="text-3xl">👑</span>
+                <span class="text-green-400 font-bold animate-pulse">Online</span>
             </div>
-
             <footer class="pt-10 text-gray-600 text-[10px] uppercase tracking-widest">
                 © 2026 xCare Professional Services
             </footer>
@@ -90,9 +76,9 @@ def home():
     return render_template_string(html_content)
 
 if __name__ == "__main__":
-    # বোট চালু করা
+    # বোট আলাদা থ্রেডে চালানো হচ্ছে
     Thread(target=run_bot, daemon=True).start()
     
-    # লগের পোর্টের সাথে মিল রেখে সেটিংস
+    # সার্ভার পোর্ট সেটিংস
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
