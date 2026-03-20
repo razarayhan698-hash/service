@@ -12,22 +12,23 @@ bot = telebot.TeleBot(API_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "হ্যালো স্যার! xCare সাপোর্ট বোট এখন সচল। 😊")
+    bot.reply_to(message, "হ্যালো স্যার! আপনার বোট এখন লাইভ আছে। 😊")
 
 @bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, "আপনার মেসেজটি অপারেটরের কাছে পৌঁছেছে। ✨")
+def all_messages(message):
+    bot.reply_to(message, "আমি আপনার মেসেজটি পেয়েছি! ✨")
 
 def run_bot():
     while True:
         try:
-            bot.remove_webhook()
-            bot.infinity_polling(timeout=20)
-        except Exception:
+            bot.remove_webhook() # এটি পুরনো সব কানেকশন কেটে নতুন করে শুরু করবে
+            bot.polling(none_stop=True, interval=0, timeout=20)
+        except Exception as e:
+            print(f"Error: {e}")
             time.sleep(5)
 
 @app.route('/')
-def index():
+def home():
     return "xCare Server is Online!"
 
 if __name__ == "__main__":
