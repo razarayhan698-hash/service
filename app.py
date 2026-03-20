@@ -5,9 +5,9 @@ from threading import Thread
 
 app = Flask(__name__)
 
-# --- আপনার টেলিগ্রাম বোটের নতুন টোকেন ---
-# BotFather থেকে পাওয়া নতুন টোকেনটি এখানে বসান
-API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk'
+# --- আপনার নতুন টেলিগ্রাম টোকেন ---
+# BotFather থেকে পাওয়া লেটেস্ট টোকেনটি এখানে বসান
+API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk' 
 bot = telebot.TeleBot(API_TOKEN)
 
 # --- অটো-রিপ্লাই লজিক ---
@@ -26,20 +26,22 @@ def handle_all_messages(message):
             bot.reply_to(message, "আপনার মেসেজটি আমাদের অপারেটরের কাছে পৌঁছেছে। ✨")
             
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Message Error: {e}")
 
 def run_bot():
-    try:
-        bot.remove_webhook()
-        print("Bot is starting...")
-        bot.infinity_polling(timeout=10, long_polling_timeout=5)
-    except Exception as e:
-        print(f"Polling error: {e}")
+    while True:
+        try:
+            bot.remove_webhook()
+            print("Bot is starting to poll...")
+            bot.infinity_polling(timeout=20, long_polling_timeout=10)
+        except Exception as e:
+            print(f"Polling error: {e}")
+            import time
+            time.sleep(5) # এরর হলে ৫ সেকেন্ড পর আবার চেষ্টা করবে
 
-# --- xCare ওয়েব ডিজাইন (লিংক ফিক্সড) ---
+# --- xCare ওয়েব ভিউ ---
 @app.route('/')
 def home():
-    # সরাসরি টেলিগ্রাম অ্যাপ ওপেন করার জন্য 'tg://resolve' লিংক ব্যবহার করা হয়েছে
     html_content = '''
     <!DOCTYPE html>
     <html lang="en">
@@ -49,46 +51,22 @@ def home():
         <title>xCare Support</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <style>
-            body { background-color: #0b1528; color: white; font-family: sans-serif; margin: 0; }
-            .card-bg { background: #16243d; border-radius: 16px; border: 1px solid rgba(255,255,255,0.15); transition: 0.4s; cursor: pointer; }
-            .card-bg:active { transform: scale(0.95); }
+            body { background-color: #0b1528; color: white; font-family: sans-serif; }
+            .card-bg { background: #16243d; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
         </style>
     </head>
-    <body class="flex items-center justify-center min-h-screen p-6">
-        <div class="max-w-sm w-full space-y-8 text-center">
-            <h1 class="text-5xl font-black italic text-blue-500 tracking-tighter">xCare</h1>
-            
-            <div class="space-y-4">
-                <a href="tg://resolve?domain=xcaresupport_bot" class="block no-underline">
-                    <div class="card-bg p-6 flex items-center justify-between">
-                        <div class="flex items-center gap-4 text-left">
-                            <span class="text-3xl">💬</span>
-                            <div>
-                                <p class="font-bold text-xl text-white">Operator Chat</p>
-                                <p class="text-xs text-gray-400">Direct bot support</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                             <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                             <span class="text-green-400 font-bold uppercase text-xs">Online</span>
-                        </div>
+    <body class="flex items-center justify-center min-h-screen">
+        <div class="text-center space-y-6">
+            <h1 class="text-5xl font-bold italic text-blue-500">xCare</h1>
+            <a href="tg://resolve?domain=xcaresupport_bot" class="block">
+                <div class="card-bg p-6 flex items-center justify-between gap-10">
+                    <div class="text-left">
+                        <p class="font-bold text-xl">Operator Chat</p>
+                        <p class="text-xs text-gray-400">Direct Support</p>
                     </div>
-                </a>
-
-                <div class="card-bg p-6 flex justify-between items-center text-left opacity-70">
-                    <div class="flex items-center gap-4">
-                        <span class="text-3xl">👑</span>
-                        <div>
-                            <p class="text-xl font-bold leading-none">Master Agent</p>
-                            <p class="text-xs text-gray-400 mt-1">Management</p>
-                        </div>
-                    </div>
+                    <span class="text-green-400 font-bold animate-pulse">● ONLINE</span>
                 </div>
-            </div>
-
-            <footer class="pt-8 text-gray-600 text-[10px] uppercase tracking-widest">
-                © 2026 xCare Professional Services
-            </footer>
+            </a>
         </div>
     </body>
     </html>
@@ -96,9 +74,6 @@ def home():
     return render_template_string(html_content)
 
 if __name__ == "__main__":
-    # বোট আলাদা থ্রেডে চালু
     Thread(target=run_bot, daemon=True).start()
-    
-    # Render পোর্ট সেটিংস
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
