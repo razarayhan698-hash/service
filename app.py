@@ -1,36 +1,34 @@
 import os
 import telebot
+import time
 from flask import Flask
 from threading import Thread
 
-# আপনার সঠিক টোকেন
+# আপনার সঠিক টোকেন বসান
 API_TOKEN = '8615529799:AAEK6NoKaghTS8CoReD_RqzugLwHoxUahNk'
 bot = telebot.TeleBot(API_TOKEN)
 app = Flask(__name__)
 
-# বোটের রিপ্লাই ফাংশন
-@bot.message_handler(commands=['start', 'help'])
-def send_welcome(message):
-    bot.reply_to(message, "হ্যালো স্যার! বোটটি এখন সচল আছে। 😊")
-
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-    bot.reply_to(message, "আপনার মেসেজটি অপারেটর দেখছে। ✨")
-
-# বোট চালানোর সঠিক পদ্ধতি (Polling)
-def run_bot():
-    bot.remove_webhook()
-    print("Bot is starting to poll...")
-    bot.infinity_polling(none_stop=True, interval=0, timeout=20)
+    bot.reply_to(message, "বট এখন সচল আছে! 😊")
 
 @app.route('/')
 def home():
-    return "<h1>xCare Server is Live!</h1>"
+    return "xCare Server is Online!"
+
+def run_bot():
+    while True:
+        try:
+            bot.remove_webhook()
+            bot.infinity_polling(none_stop=True)
+        except Exception:
+            time.sleep(5)
 
 if __name__ == "__main__":
-    # বোটকে আলাদা থ্রেডে চালু করা
+    # বোটকে আলাদা থ্রেডে চালানো
     Thread(target=run_bot, daemon=True).start()
     
-    # Render পোর্টের জন্য ফ্লাস্ক চালু করা
+    # Render-এর জন্য পোর্টের সঠিক সেটিংস
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
